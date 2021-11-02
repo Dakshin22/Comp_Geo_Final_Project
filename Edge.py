@@ -5,7 +5,7 @@ class Edge:
         self.p0 = p0
         self.p1 = p1
     
-    def __str__(self):
+    def __repr__(self):
         return f'<{self.p0}, {self.p1}>'
 
     def __eq__(self, other):
