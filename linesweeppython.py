@@ -22,22 +22,23 @@ def generateRandomSegments():
     return edges
 
 
-
 def lineSweepIntersection(edges):
     eventQueue = getEvents(edges)
     heapify(eventQueue)
     currEvent = eventQueue[0]
-    lineSweepStatus = SortedList(key=lambda x: getXValue(x, currEvent.point.y))
+    lineSweepStatus = SortedKeyList(key=lambda x: getXValue(x, currEvent.point.y))
     print(lineSweepStatus)
     i = 0
     while eventQueue:
         currEvent = heappop(eventQueue)
+        yLevel = currEvent.point.y
+        lineSweepStatus = SortedKeyList(lineSweepStatus, key=lambda x: getXValue(x, currEvent.point.y))
         if currEvent.category == 0:
             lineSweepStatus.add(currEvent.edge1)
         elif currEvent.category == 1:
-            print(currEvent.edge1 == Edge(Point(2,1), Point(1, 4)))
-            lineSweepIntersection.remove(currEvent.edge1)
-        print(i, lineSweepStatus)
+            #print(currEvent.edge1 == Edge(Point(2,1), Point(1, 4)))
+            lineSweepStatus.remove(currEvent.edge1)
+        print(lineSweepStatus)
         i += 1
 
     
@@ -59,11 +60,14 @@ def getEvents(edges):
     return events
 
 myEdges = generateRandomSegments()
+'''
 for e1 in myEdges:
     for e2 in myEdges:
         if e1 != e2:
             intersectionPoint = e1.intersectionPoint(e2)
             if intersectionPoint:
-                print(intersectionPoint)
+                pass
+                #print(intersectionPoint)
+'''
 
 lineSweepIntersection(myEdges)
