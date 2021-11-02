@@ -7,14 +7,17 @@ from heapq import *
 from sortedcontainers import *
 from maxHeap import max_heap
 from bintrees import *
-
+#Qs how to randomize line segments
+#horizontal lines
+#How to implement line sweep status
 def generateRandomSegments():
-    edges = [Edge(Point(2,1), Point(1,4)),
+    edges = [
+             Edge(Point(2,1), Point(1,4)),
              Edge(Point(3,3), Point(1,6)),
              Edge(Point(8,2), Point(4,6)),
              Edge(Point(5,3), Point(8,7)),
              Edge(Point(6,3), Point(9,6))
-    ]
+            ]
 
     return edges
 
@@ -22,10 +25,25 @@ def generateRandomSegments():
 
 def lineSweepIntersection(edges):
     eventQueue = getEvents(edges)
-    lineSweepStatus = SortedList(edges, key=lambda x: x.p0.x)
-    print(lineSweepStatus)
     heapify(eventQueue)
-    print(eventQueue)
+    currEvent = eventQueue[0]
+    lineSweepStatus = SortedList(key=lambda x: getXValue(x, currEvent.point.y))
+    print(lineSweepStatus)
+    i = 0
+    while eventQueue:
+        currEvent = heappop(eventQueue)
+        if currEvent.category == 0:
+            lineSweepStatus.add(currEvent.edge1)
+        elif currEvent.category == 1:
+            print(currEvent.edge1 == Edge(Point(2,1), Point(1, 4)))
+            lineSweepIntersection.remove(currEvent.edge1)
+        print(i, lineSweepStatus)
+        i += 1
+
+    
+def getXValue(segment, yVal):
+    slope = (segment.p1.y - segment.p0.y) / (segment.p1.x - segment.p0.x)
+    return ((yVal - segment.p1.y )/ slope) + segment.p1.x
 
 def getEvents(edges):
     # Event category 0 is bottom, 1 is top, 2 is intersection

@@ -2,7 +2,7 @@ from Point import Point
 from Edge import Edge
 
 class Event:
-    def __init__(self, category, point: Point, edge1, edge2=None):
+    def __init__(self, category, point: Point, edge1: Edge, edge2=None):
         self.category = category
         self.point = point
         self.edge1 = edge1
