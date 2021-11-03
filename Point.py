@@ -3,7 +3,7 @@ class Point:
         self.x = x
         self.y = y
 
-    def __str__(self):
+    def __repr__(self):
         return f'({self.x}, {self.y})'
 
     def __eq__(self, other):
