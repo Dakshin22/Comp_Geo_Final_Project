@@ -39,5 +39,9 @@ class Edge:
         intersectionY = P0y + (t * Dy)
 
         intersection = Point(intersectionX, intersectionY)
+        round(intersection, 3)
         return intersection
 
+    def getXValue(self, yVal):
+        slope = (self.p1.y - self.p0.y) / (self.p1.x - self.p0.x)
+        return ((yVal - self.p1.y )/ slope) + self.p1.x

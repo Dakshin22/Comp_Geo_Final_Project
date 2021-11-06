@@ -8,3 +8,10 @@ class Point:
 
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
+    
+    def __round__(self, ndigits):
+        self.x = round(self.x, ndigits)
+        self.y = round(self.y, ndigits)
+    
+    def __hash__(self):
+        return hash((self.x, self.y))
