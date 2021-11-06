@@ -31,7 +31,7 @@ def generateRandomSegments():
              Edge(Point(6,3), Point(9,6))
             ]
 
-    return edges2
+    return edges
 
 def lineSweepIntersectionLinear(edges):
     print(edges)
@@ -56,19 +56,15 @@ def lineSweepIntersectionLinear(edges):
                 predEdge = lineSweepStatus.get(predIdx)
                 intersection = predEdge.intersectionPoint(currEvent.edge1)
                 #print(intersection, lineSweepStatus.get(predIdx), lineSweepStatus.get(idx))
-                if intersection:
-                    if intersection not in intersections:
-                        intersections.add(intersection)
-                        heappush(eventQueue, Event(2, intersection, predEdge, currEvent.edge1))
+                addIntersection(intersection, eventQueue, intersections, predEdge, currEvent.edge1)
+
             if sucIdx:
                 
                 sucEdge = lineSweepStatus.get(sucIdx)
                 intersection = sucEdge.intersectionPoint(currEvent.edge1)
                 #print(intersection, lineSweepStatus.get(predIdx), lineSweepStatus.get(idx))
-                if intersection:
-                    if intersection not in intersections:
-                        intersections.add(intersection)
-                        heappush(eventQueue, Event(2, intersection, currEvent.edge1, sucEdge))
+                addIntersection(intersection, eventQueue, intersections, currEvent.edge1, sucEdge)
+
                     
         elif currEvent.category == 1:
             #print(currEvent.edge1 == Edge(Point(2,1), Point(1, 4)))
@@ -81,10 +77,8 @@ def lineSweepIntersectionLinear(edges):
                 sucEdge = lineSweepStatus.get(sucIdx)
                 intersection = predEdge.intersectionPoint(sucEdge)
                 #print(intersection, lineSweepStatus.get(predIdx), lineSweepStatus.get(sucIdx))
-                if intersection:
-                    if intersection not in intersections:
-                        intersections.add(intersection)
-                        heappush(eventQueue, Event(2, intersection, predEdge, currEvent.edge1))
+                addIntersection(intersection, eventQueue, intersections, predEdge, currEvent.edge1)
+
             lineSweepStatus.remove(currEvent.edge1)
         
         else:
@@ -98,23 +92,23 @@ def lineSweepIntersectionLinear(edges):
                 predEdge = lineSweepStatus.get(predIdx)
                 intersection = predEdge.intersectionPoint(currEvent.edge2)
                 #print(intersection, predEdge, currEvent.edge2)
-                if intersection:
-                    if intersection not in intersections:
-                        intersections.add(intersection)
-                        heappush(eventQueue, Event(2, intersection, predEdge, currEvent.edge2))
+                addIntersection(intersection, eventQueue, intersections, predEdge, currEvent.edge2)
 
             sucIdx = lineSweepStatus.successor(currEvent.edge1)
             if sucIdx:
                 sucEdge = lineSweepStatus.get(sucIdx)
                 intersection = currEvent.edge1.intersectionPoint(sucEdge)
                 #print(intersection, currEvent.edge2,  sucEdge)
-                if intersection:
-                    if intersection not in intersections:
-                        intersections.add(intersection)
-                        heappush(eventQueue, Event(2, intersection, currEvent.edge1, sucEdge))
+                addIntersection(intersection, eventQueue, intersections, currEvent.edge1, sucEdge)
 
         print(lineSweepStatus.toString(yVal=currY))
     print(intersections)
+
+def addIntersection(intersection, eventQueue, intersections, edge1, edge2):
+    if intersection:
+        if intersection not in intersections:
+            intersections.add(intersection)
+            heappush(eventQueue, Event(2, intersection, edge1, edge2))
 
 
 def lineSweepIntersectionWithTree(edges):
