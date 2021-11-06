@@ -4,105 +4,110 @@ from Edge import Edge
 from Event import Event
 from heapq import *
 # http://www.grantjenks.com/docs/sortedcontainers/
-#avl tree: https://github.com/Bibeknam/algorithmtutorprograms/blob/master/data-structures/avl-trees/avl_tree.py
-from sortedcontainers import *
-from maxHeap import max_heap
-from bintrees import *
+# avl tree: https://github.com/Bibeknam/algorithmtutorprograms/blob/master/data-structures/avl-trees/avl_tree.py
 from SortedListBasic import SortedListBasic
-#Qs how to randomize line segments
-#horizontal lines
-#How to implement line sweep status
-currY = 0
+import random
+import time
+# Qs how to randomize line segments
+# horizontal lines
+# How to implement line sweep status
+
 
 def generateRandomSegments():
     edges = [
-             Edge(Point(2,1), Point(1,4)),
-             Edge(Point(3,3), Point(1,6)),
-             Edge(Point(8,2), Point(4,6)),
-             Edge(Point(5,3), Point(8,7)),
-             Edge(Point(6,3), Point(9,6))
-            ]
+        Edge(Point(2, 1), Point(1, 4)),
+        Edge(Point(3, 3), Point(1, 6)),
+        Edge(Point(8, 2), Point(4, 6)),
+        Edge(Point(5, 3), Point(8, 7)),
+        Edge(Point(6, 3), Point(9, 6))
+    ]
 
     edges2 = [
-             Edge(Point(2,1), Point(5,6)),
-             Edge(Point(10,2), Point(1,6)),
-             Edge(Point(8,2), Point(4,6)),
-             Edge(Point(50,3), Point(8,7)),
-             Edge(Point(6,3), Point(9,6))
-            ]
+        Edge(Point(1.672, 0.141), Point(2.547, 3.187)),
+        Edge(Point(4.499, 2.111), Point(2.082, 3.715)),
+        Edge(Point(2.75, 3.94), Point(1.424, 2.449)),
+        Edge(Point(2.203, 0.02), Point(4.132, 0.197)),
+        Edge(Point(3.434, 4.911), Point(3.932, 1.038))
+    ]
+    randomEdges = []
+    min_range = 0
+    max_range = 1000
+    while len(randomEdges) < 3000:
+        randomEdge = Edge(getRandomPoint(min_range, max_range, min_range,
+                                               max_range), getRandomPoint(min_range, max_range, min_range,  max_range))
+        if abs(randomEdge.p0.y - randomEdge.p1.y) > 2:
+            randomEdges.append(randomEdge)
+    #print(randomEdges)
 
-    return edges
+    bestCaseEdges = []
+    increment = 1
+    for i in range(4):
+        bestCaseEdges.append(Edge(getRandomPoint(min_range, max_range, i, i + increment), getRandomPoint(
+            min_range, max_range, i, i + increment)))
+
+    return randomEdges, bestCaseEdges
+
+
+def getRandomPoint(min_range_x, max_range_x, min_range_y, max_range_y):
+    p = Point(random.uniform(min_range_x, max_range_x),
+              random.uniform(min_range_y, max_range_y))
+    round(p, 3)
+    return p
+
 
 def lineSweepIntersectionLinear(edges):
-    print(edges)
+    #print(edges)
     eventQueue = getEvents(edges)
     heapify(eventQueue)
     currEvent = eventQueue[0]
     intersections = set()
     currY = currEvent.point.y
     lineSweepStatus = SortedListBasic()
-    print(lineSweepStatus)
-    i = 0
+    #print(lineSweepStatus)
     while eventQueue:
         currEvent = heappop(eventQueue)
         currY = currEvent.point.y
-        print(currEvent.category)
+        #print(currEvent.category)
         if currEvent.category == 0:
             lineSweepStatus.add(currEvent.edge1, currY)
-            idx = lineSweepStatus.index(currEvent.edge1)
-            predIdx = lineSweepStatus.predecessor(currEvent.edge1)
-            sucIdx = lineSweepStatus.successor(currEvent.edge1)
-            if predIdx:
-                predEdge = lineSweepStatus.get(predIdx)
+            predEdge = lineSweepStatus.predecessor(currEvent.edge1)
+            sucEdge = lineSweepStatus.successor(currEvent.edge1)
+            if predEdge:
                 intersection = predEdge.intersectionPoint(currEvent.edge1)
-                #print(intersection, lineSweepStatus.get(predIdx), lineSweepStatus.get(idx))
-                addIntersection(intersection, eventQueue, intersections, predEdge, currEvent.edge1)
-
-            if sucIdx:
-                
-                sucEdge = lineSweepStatus.get(sucIdx)
+                addIntersection(intersection, eventQueue,
+                                intersections, predEdge, currEvent.edge1)
+            if sucEdge:
                 intersection = sucEdge.intersectionPoint(currEvent.edge1)
-                #print(intersection, lineSweepStatus.get(predIdx), lineSweepStatus.get(idx))
-                addIntersection(intersection, eventQueue, intersections, currEvent.edge1, sucEdge)
+                addIntersection(intersection, eventQueue,
+                                intersections, currEvent.edge1, sucEdge)
 
-                    
         elif currEvent.category == 1:
-            #print(currEvent.edge1 == Edge(Point(2,1), Point(1, 4)))
-            #lineSweepStatus = SortedKeyList(lineSweepStatus, key=lambda x: getXValue(x, currEvent.point.y))
-            idx = lineSweepStatus.index(currEvent.edge1)
-            predIdx = lineSweepStatus.predecessor(currEvent.edge1)
-            sucIdx = lineSweepStatus.successor(currEvent.edge1)
-            if predIdx and sucIdx:
-                predEdge = lineSweepStatus.get(predIdx)
-                sucEdge = lineSweepStatus.get(sucIdx)
+            predEdge = lineSweepStatus.predecessor(currEvent.edge1)
+            sucEdge = lineSweepStatus.successor(currEvent.edge1)
+            if predEdge and sucEdge:
                 intersection = predEdge.intersectionPoint(sucEdge)
-                #print(intersection, lineSweepStatus.get(predIdx), lineSweepStatus.get(sucIdx))
-                addIntersection(intersection, eventQueue, intersections, predEdge, currEvent.edge1)
-
+                addIntersection(intersection, eventQueue,
+                                intersections, predEdge, sucEdge)
             lineSweepStatus.remove(currEvent.edge1)
-        
+
         else:
-            print("intersection event")
-            idx1 = lineSweepStatus.index(currEvent.edge1)
-            idx2 = lineSweepStatus.index(currEvent.edge2)
-            print(idx1, idx2)
-            lineSweepStatus.swap(idx1, idx2)
-            predIdx = lineSweepStatus.predecessor(currEvent.edge2)
-            if predIdx:
-                predEdge = lineSweepStatus.get(predIdx)
+            #print("intersection event")
+            lineSweepStatus.swapEdges(currEvent.edge1, currEvent.edge2)
+            predEdge = lineSweepStatus.predecessor(currEvent.edge2)
+            if predEdge:
                 intersection = predEdge.intersectionPoint(currEvent.edge2)
-                #print(intersection, predEdge, currEvent.edge2)
-                addIntersection(intersection, eventQueue, intersections, predEdge, currEvent.edge2)
-
-            sucIdx = lineSweepStatus.successor(currEvent.edge1)
-            if sucIdx:
-                sucEdge = lineSweepStatus.get(sucIdx)
+                addIntersection(intersection, eventQueue,
+                                intersections, predEdge, currEvent.edge2)
+            sucEdge = lineSweepStatus.successor(currEvent.edge1)
+            if sucEdge:
                 intersection = currEvent.edge1.intersectionPoint(sucEdge)
-                #print(intersection, currEvent.edge2,  sucEdge)
-                addIntersection(intersection, eventQueue, intersections, currEvent.edge1, sucEdge)
+                addIntersection(intersection, eventQueue,
+                                intersections, currEvent.edge1, sucEdge)
 
-        print(lineSweepStatus.toString(yVal=currY))
-    print(intersections)
+        #print(lineSweepStatus.toString(yVal=currY))
+    return intersections
+    #print(intersections)
+
 
 def addIntersection(intersection, eventQueue, intersections, edge1, edge2):
     if intersection:
@@ -111,56 +116,10 @@ def addIntersection(intersection, eventQueue, intersections, edge1, edge2):
             heappush(eventQueue, Event(2, intersection, edge1, edge2))
 
 
-def lineSweepIntersectionWithTree(edges):
-    eventQueue = getEvents(edges)
-    heapify(eventQueue)
-    currEvent = eventQueue[0]
-    intersections = set()
-    currY = currEvent.point.y
-    lineSweepStatus = SortedKeyList(key=lambda x: getXValue(x, currY))
-    print(lineSweepStatus)
-    i = 0
-    while eventQueue:
-        currEvent = heappop(eventQueue)
-        currY = currEvent.point.y
-        
-        if currEvent.category == 0:
-            #lineSweepStatus = SortedKeyList(lineSweepStatus, key=lambda x: getXValue(x, currEvent.point.y))
-            lineSweepStatus.add(currEvent.edge1)
-            idx = lineSweepStatus.index(currEvent.edge1)
-            predIdx, sucIdx = idx - 1, idx + 1
-            if 0 <= predIdx < len(lineSweepStatus):
-                intersections.add(lineSweepStatus[predIdx].intersectionPoint(lineSweepStatus[idx]))
-            if 0 <= sucIdx < len(lineSweepStatus):
-                intersections.add(lineSweepStatus[sucIdx].intersectionPoint(lineSweepStatus[idx]))
-        elif currEvent.category == 1:
-            #print(currEvent.edge1 == Edge(Point(2,1), Point(1, 4)))
-            #lineSweepStatus = SortedKeyList(lineSweepStatus, key=lambda x: getXValue(x, currEvent.point.y))
-            idx = lineSweepStatus.index(currEvent.edge1)
-            predIdx, sucIdx = idx - 1, idx + 1
-            if 0 <= predIdx < len(lineSweepStatus) and 0 <= sucIdx < len(lineSweepStatus):
-                intersections.add(lineSweepStatus[predIdx].intersectionPoint(lineSweepStatus[sucIdx]))
-            lineSweepStatus.remove(currEvent.edge1)
-        else:
-            #lineSweepStatus = SortedKeyList(lineSweepStatus, key=lambda x: getXValue(x, currEvent.point.y+.01))
-            print("intersection event")
-            idx1 = lineSweepStatus.index(currEvent.edge1)
-            idx2 = lineSweepStatus.index(currEvent.edge2)
-            predIdx1, sucIdx1 = idx1 - 1, idx1 + 1
-            if 0 <= predIdx1 < len(lineSweepStatus) and 0 <= sucIdx1 < len(lineSweepStatus):
-                intersections.add(lineSweepStatus[predIdx1].intersectionPoint(lineSweepStatus[sucIdx1]))
-            predIdx2, sucIdx2 = idx2 - 1, idx2 + 1
-            if 0 <= predIdx2 < len(lineSweepStatus) and 0 <= sucIdx2 < len(lineSweepStatus):
-                intersections.add(lineSweepStatus[predIdx2].intersectionPoint(lineSweepStatus[sucIdx2]))
-
-        print(lineSweepStatus)
-
-    intersections.remove(None)
-    print(intersections)
-
 def getXValue(segment, yVal):
     slope = (segment.p1.y - segment.p0.y) / (segment.p1.x - segment.p0.x)
-    return ((yVal - segment.p1.y )/ slope) + segment.p1.x
+    return ((yVal - segment.p1.y) / slope) + segment.p1.x
+
 
 def getEvents(edges):
     # Event category 0 is bottom, 1 is top, 2 is intersection
@@ -175,15 +134,19 @@ def getEvents(edges):
 
     return events
 
-myEdges = generateRandomSegments()
+
+myEdges, myBestEdges = generateRandomSegments()
 '''
+intersections = set()
 for e1 in myEdges:
     for e2 in myEdges:
         if e1 != e2:
             intersectionPoint = e1.intersectionPoint(e2)
             if intersectionPoint:
-                pass
-                #print(intersectionPoint)
+                intersections.add(intersectionPoint)
 '''
-
+#print(intersections)
+start = time.time()
 lineSweepIntersectionLinear(myEdges)
+end = time.time()
+print(f"{end - start}s")

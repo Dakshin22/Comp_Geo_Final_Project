@@ -28,23 +28,32 @@ class SortedListBasic:
     def predecessor(self, value: Edge):
         idx = self.index(value)
         if idx > 0:
-            return idx - 1
+            predIdx = idx - 1
+            return self.sortedList[predIdx]
         else:
             return None
     
     def successor(self, value:Edge):
         idx = self.index(value)
         if idx < len(self.sortedList) - 1:
-            return idx + 1
+            sucIdx = idx + 1
+            return self.sortedList[sucIdx]
         else:
             return None
 
     def swap(self, idx1, idx2):
         self.sortedList[idx2], self.sortedList[idx1] = self.sortedList[idx1], self.sortedList[idx2]
 
+    def swapEdges(self, edge1, edge2):
+        edge1Idx = self.sortedList.index(edge1)
+        edge2Idx = self.sortedList.index(edge2)
+        self.swap(edge1Idx, edge2Idx)       
+
     def get(self, idx):
         return self.sortedList[idx]
 
 def getXValue(segment, yVal):
     slope = (segment.p1.y - segment.p0.y) / (segment.p1.x - segment.p0.x)
-    return ((yVal - segment.p1.y )/ slope) + segment.p1.x
+    xVal =  ((yVal - segment.p1.y )/ slope) + segment.p1.x
+    xVal = round(xVal, 2)
+    return xVal
