@@ -1,19 +1,20 @@
 import java.util.*;
 
-public class LineSweep {
+public class OptimizedLineSweep {
+
     private SortedList lineSweepStatus;
     private Queue<Event> eventQueue;
-    public Set<Point> intersections;
+    public TreeSet<Point> intersections;
 
-    public LineSweep(ArrayList<Edge> edges) {
-        this.lineSweepStatus = new SortedList();
-        this.eventQueue = new PriorityQueue<>(new event_comparator());
-        ArrayList<Event> events = getEvents(edges);
-        for (Event e : events) {
-            eventQueue.add(e);
+    public OptimizedLineSweep(ArrayList<Edge> edges) {
+            this.lineSweepStatus = new SortedList();
+            this.eventQueue = new PriorityQueue<>(new event_comparator());
+            ArrayList<Event> events = getEvents(edges);
+            for (Event e : events) {
+                eventQueue.add(e);
+            }
+            this.intersections = new TreeSet<Point>();
         }
-        this.intersections = new HashSet<Point>();
-    }
 
     public void line_sweep() {
         while (!eventQueue.isEmpty()) {
@@ -69,6 +70,10 @@ public class LineSweep {
         }
     }
 
+    public double getXValue(Edge segment, double yVal) {
+        double slope = (segment.p1.y - segment.p0.y) / (segment.p1.x - segment.p0.x);
+        return ((yVal - segment.p1.y) / slope) + segment.p1.x;
+    }
 
     public ArrayList<Event> getEvents(ArrayList<Edge> edges) {
         // Event category 0 is bottom, 1 is top, 2 is intersection

@@ -8,9 +8,6 @@ from heapq import *
 from SortedListBasic import SortedListBasic
 import random
 import time
-# Qs how to randomize line segments
-# horizontal lines
-# How to implement line sweep status
 
 
 def generateRandomSegments():
@@ -32,7 +29,7 @@ def generateRandomSegments():
     randomEdges = []
     min_range = 0
     max_range = 1000
-    while len(randomEdges) < 3000:
+    while len(randomEdges) < 300:
         randomEdge = Edge(getRandomPoint(min_range, max_range, min_range,
                                                max_range), getRandomPoint(min_range, max_range, min_range,  max_range))
         if abs(randomEdge.p0.y - randomEdge.p1.y) > 5:
