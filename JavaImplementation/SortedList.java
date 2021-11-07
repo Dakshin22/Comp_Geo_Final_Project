@@ -30,6 +30,7 @@ public class SortedList {
     }
 
     public void swap(int idx1, int idx2) {
+
         Collections.swap(this.sortedList, idx1, idx2);
     }
 
@@ -44,6 +45,11 @@ public class SortedList {
     public void swapEdges(Edge edge1, Edge edge2) {
         int edge1Idx = this.index(edge1);
         int edge2Idx = this.index(edge2);
+        if(edge1Idx == -1 || edge2Idx == -1)
+        {
+            System.out.println(edge1);
+            System.out.println(edge2);
+        }
         this.swap(edge1Idx, edge2Idx);
     }
 

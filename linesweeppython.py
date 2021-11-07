@@ -152,4 +152,4 @@ for e1 in myEdges:
 start = time.time()
 lineSweepIntersectionLinear(myEdges)
 end = time.time()
-print(f"{end - start}s")
+print(f"runtime: {end - start}s")

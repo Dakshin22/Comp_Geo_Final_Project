@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,13 +14,39 @@ public class Main {
         myEdgesList.add(e4);
         myEdgesList.add(e5);
 
-        LineSweep algo = new LineSweep(myEdgesList);
+        ArrayList<Edge> randomEdges = getRandomEdges(-1000, 1000, 70);
+        //System.out.println(randomEdges);
+        LineSweep algo = new LineSweep(randomEdges);
         long t1 = System.currentTimeMillis();
         algo.line_sweep();
-        long t2 = System.currentTimeMillis(); 
+        long t2 = System.currentTimeMillis();
         System.out.println(algo.intersections);
         System.out.println("runtime: " + (t2 - t1) + " ms");
     }
 
-    
+    public static ArrayList<Edge> getRandomEdges(double low, double high, int num) {
+        ArrayList<Edge> randomEdges = new ArrayList<Edge>();
+        while (randomEdges.size() < num) {
+            Edge randomEdge = new Edge(getRandomPoint(low, high, low, high), getRandomPoint(low, high, low, high));
+            if (Math.abs(randomEdge.p0.y - randomEdge.p1.y) > 1) {
+                randomEdges.add(randomEdge);
+            }
+        }
+        return randomEdges;
+    }
+
+    public static Point getRandomPoint(double min_range_x, double max_range_x, double min_range_y, double max_range_y) {
+
+        Point p = new Point(getRandomValue(min_range_x, max_range_x), getRandomValue(min_range_y, max_range_y));
+        return p;
+
+    }
+
+    public static double getRandomValue(double min_range, double max_range) {
+        Random r = new Random();
+        double randomValue = min_range + (max_range - min_range) * r.nextDouble();
+        //System.out.println(randomValue);
+        return randomValue;
+    }
+
 }
