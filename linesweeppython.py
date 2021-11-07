@@ -150,6 +150,6 @@ for e1 in myEdges:
 '''
 #print(intersections)
 start = time.time()
-lineSweepIntersectionLinear(myBestEdges)
+lineSweepIntersectionLinear(myEdges)
 end = time.time()
 print(f"{end - start}s")

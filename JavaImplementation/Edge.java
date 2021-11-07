@@ -18,6 +18,12 @@ public class Edge {
 
     }
 
+    public String toString() {
+        String ret = "";
+        ret = ret + "<" + this.p0.toString() + ", " + this.p1.toString() + ">";
+        return ret;
+    }
+
     public Point getUpperPoint() {
         if (p0.y > p1.y) {
             return p0;
