@@ -18,6 +18,7 @@ public class Main {
         long t1 = System.currentTimeMillis();
         algo.line_sweep();
         long t2 = System.currentTimeMillis(); 
+        System.out.println(algo.intersections);
         System.out.println("runtime: " + (t2 - t1) + " ms");
     }
 
