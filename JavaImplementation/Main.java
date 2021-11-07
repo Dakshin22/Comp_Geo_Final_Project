@@ -8,39 +8,18 @@ public class Main {
         Edge e3 = new Edge(new Point(6, 3), new Point(9, 6));
         Edge e4 = new Edge(new Point(5, 3), new Point(8, 7));
         Edge e5 = new Edge(new Point(3, 3), new Point(1, 6));
+        myEdgesList.add(e1);
+        myEdgesList.add(e2);
+        myEdgesList.add(e3);
+        myEdgesList.add(e4);
+        myEdgesList.add(e5);
 
-        SortedList list = new SortedList();
-        list.add(e1, e1.getLowerPoint().y);
-        System.out.println(list.toString(e1.getLowerPoint().y));
-        list.add(e2, e2.getLowerPoint().y);
-        System.out.println(list.toString(e2.getLowerPoint().y));
-        list.add(e3, e3.getLowerPoint().y);
-        System.out.println(list.toString(e3.getLowerPoint().y));
-        list.add(e4, e4.getLowerPoint().y);
-        System.out.println(list.toString(e4.getLowerPoint().y));
-        list.add(e5, e5.getLowerPoint().y);
-        System.out.println(list.toString(e5.getLowerPoint().y));
-        System.out.println(list.predecessor(e1));
-        System.out.println(list.successor(e2));
+        LineSweep algo = new LineSweep(myEdgesList);
+        long t1 = System.currentTimeMillis();
+        algo.line_sweep();
+        long t2 = System.currentTimeMillis(); 
+        System.out.println("runtime: " + (t2 - t1) + " ms");
     }
 
-    public double getXValue(Edge segment, double yVal) {
-        double slope = (segment.p1.y - segment.p0.y) / (segment.p1.x - segment.p0.x);
-        return ((yVal - segment.p1.y) / slope) + segment.p1.x;
-    }
-
-    public ArrayList<Event> getEvents(ArrayList<Edge> edges) {
-        // Event category 0 is bottom, 1 is top, 2 is intersection
-        ArrayList<Event> events = new ArrayList<Event>();
-        for (Edge edge : edges) {
-            if (edge.p0.y > edge.p1.y) {
-                events.add(new Event(1, edge.p0, edge, null));
-                events.add(new Event(0, edge.p1, edge, null));
-            } else {
-                events.add(new Event(0, edge.p0, edge, null));
-                events.add(new Event(1, edge.p1, edge, null));
-            }
-        }
-        return events;
-    }
+    
 }
