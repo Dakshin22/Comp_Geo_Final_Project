@@ -35,16 +35,19 @@ def generateRandomSegments():
     while len(randomEdges) < 3000:
         randomEdge = Edge(getRandomPoint(min_range, max_range, min_range,
                                                max_range), getRandomPoint(min_range, max_range, min_range,  max_range))
-        if abs(randomEdge.p0.y - randomEdge.p1.y) > 2:
+        if abs(randomEdge.p0.y - randomEdge.p1.y) > 5:
             randomEdges.append(randomEdge)
     #print(randomEdges)
 
     bestCaseEdges = []
-    increment = 1
-    for i in range(4):
-        bestCaseEdges.append(Edge(getRandomPoint(min_range, max_range, i, i + increment), getRandomPoint(
-            min_range, max_range, i, i + increment)))
+    increment = 10
+    i = 0
+    while len(bestCaseEdges) < 500000:
+        bestEdge = Edge(getRandomPoint(min_range, max_range, i, i + increment//2), getRandomPoint(
+            min_range, max_range, i + increment//2 + 1, i + increment))
 
+        bestCaseEdges.append(bestEdge)
+        i+=increment
     return randomEdges, bestCaseEdges
 
 
@@ -147,6 +150,6 @@ for e1 in myEdges:
 '''
 #print(intersections)
 start = time.time()
-lineSweepIntersectionLinear(myEdges)
+lineSweepIntersectionLinear(myBestEdges)
 end = time.time()
 print(f"{end - start}s")
