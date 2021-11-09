@@ -47,8 +47,17 @@ public class SortedList {
         int edge2Idx = this.index(edge2);
         if(edge1Idx == -1 || edge2Idx == -1)
         {
-            System.out.println(edge1);
-            System.out.println(edge2);
+            // System.out.println(edge1);
+            // System.out.println(edge2);
+            // if(edge1Idx == -1)
+            // {
+            //     System.out.println(edge1 + "is the problem");
+            // }
+            // else if(edge2Idx == -1)
+            // {
+            //     System.out.println(edge1 + "is the problem");
+            // }
+            return;
         }
         this.swap(edge1Idx, edge2Idx);
     }

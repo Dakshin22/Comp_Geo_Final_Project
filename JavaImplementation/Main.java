@@ -3,26 +3,50 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         ArrayList<Edge> myEdgesList = new ArrayList<Edge>();
-        Edge e1 = new Edge(new Point(2, 1), new Point(1, 4));
+        Edge e1 = new Edge(new Point(2, 1), new Point(3.21, 3.04));
         Edge e2 = new Edge(new Point(8, 2), new Point(4, 6));
-        Edge e3 = new Edge(new Point(6, 3), new Point(9, 6));
+        Edge e3 = new Edge(new Point(6, 3), new Point(6.5, 3.5));
         Edge e4 = new Edge(new Point(5, 3), new Point(8, 7));
-        Edge e5 = new Edge(new Point(3, 3), new Point(1, 6));
+        Edge e5 = new Edge(new Point(4, 2), new Point(1, 6));
         myEdgesList.add(e1);
         myEdgesList.add(e2);
         myEdgesList.add(e3);
         myEdgesList.add(e4);
         myEdgesList.add(e5);
 
-        ArrayList<Edge> randomEdges = getRandomEdges(-1000, 1000, 70);
+        TreeSetTest test = new TreeSetTest(myEdgesList);
+        test.print();
+
+        OptimizedLineSweep algo2 = new OptimizedLineSweep(myEdgesList);
+        algo2.line_sweep();
+        System.out.println(algo2.intersections);
+
+
+
+
+
+        
+        ArrayList<Edge> randomEdges = getRandomEdges(-10000, 10000, 70000);
         //System.out.println(randomEdges);
-        LineSweep algo = new LineSweep(randomEdges);
+        OptimizedLineSweep algo = new OptimizedLineSweep(randomEdges);
+        LineSweep normalAlgo = new LineSweep(randomEdges);
         long t1 = System.currentTimeMillis();
         algo.line_sweep();
         long t2 = System.currentTimeMillis();
-        System.out.println(algo.intersections);
         System.out.println("runtime: " + (t2 - t1) + " ms");
+        //System.out.println(algo.intersections);
+        t1 = System.currentTimeMillis();
+        normalAlgo.line_sweep();
+        t2 = System.currentTimeMillis();
+        System.out.println("runtime2: " + (t2 - t1) + " ms");
+        //System.out.println(normalAlgo.intersections);
+
+        
+
+
     }
+
+
 
     public static ArrayList<Edge> getRandomEdges(double low, double high, int num) {
         ArrayList<Edge> randomEdges = new ArrayList<Edge>();
