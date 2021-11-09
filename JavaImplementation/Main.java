@@ -21,7 +21,7 @@ public class Main {
 
 
         
-        ArrayList<Edge> randomEdges = getRandomEdges(-10000, 10000, 70000);
+        ArrayList<Edge> randomEdges = getRandomEdges(-10000, 10000, 7000);
         //System.out.println(randomEdges);
         OptimizedLineSweep algo = new OptimizedLineSweep(randomEdges);
         LineSweep normalAlgo = new LineSweep(randomEdges);
