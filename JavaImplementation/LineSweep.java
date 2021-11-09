@@ -44,17 +44,19 @@ public class LineSweep {
 
             } else {
 
-                lineSweepStatus.swapEdges(currEvent.edge1, currEvent.edge2);
-                Edge predEdge = lineSweepStatus.predecessor(currEvent.edge2);
-                if (predEdge != null) {
-                    Point intersection = predEdge.intersectionPoint(currEvent.edge2);
-                    addIntersection(intersection, predEdge, currEvent.edge2);
-                }
-                Edge sucEdge = lineSweepStatus.successor(currEvent.edge1);
-                if (sucEdge != null) {
-                    Point intersection = currEvent.edge1.intersectionPoint(sucEdge);
-                    addIntersection(intersection, currEvent.edge1, sucEdge);
-                }
+                lineSweepStatus.swapEdges2(currEvent.edge1, currEvent.edge2, currY);
+
+                    Edge predEdge = lineSweepStatus.predecessor(currEvent.edge2);
+                    if (predEdge != null) {
+                        Point intersection = predEdge.intersectionPoint(currEvent.edge2);
+                        addIntersection(intersection, predEdge, currEvent.edge2);
+                    }
+                    Edge sucEdge = lineSweepStatus.successor(currEvent.edge1);
+                    if (sucEdge != null) {
+                        Point intersection = currEvent.edge1.intersectionPoint(sucEdge);
+                        addIntersection(intersection, currEvent.edge1, sucEdge);
+                    }
+
             }
         }
     }

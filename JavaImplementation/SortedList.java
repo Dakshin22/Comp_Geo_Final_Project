@@ -42,7 +42,15 @@ public class SortedList {
         return this.sortedList.indexOf(value);
     }
 
-    public void swapEdges(Edge edge1, Edge edge2) {
+    public void swapEdges2(Edge edge1, Edge edge2, double currY) {
+        this.remove(edge1);
+        this.remove(edge2);
+        add(edge2, currY + 0.01);
+        add(edge1, currY + 0.01);
+
+    }
+
+    public int swapEdges(Edge edge1, Edge edge2) {
         int edge1Idx = this.index(edge1);
         int edge2Idx = this.index(edge2);
         if(edge1Idx == -1 || edge2Idx == -1)
@@ -57,9 +65,10 @@ public class SortedList {
             // {
             //     System.out.println(edge1 + "is the problem");
             // }
-            return;
+            return -1;
         }
         this.swap(edge1Idx, edge2Idx);
+        return 1;
     }
 
     public Edge get(int idx) {

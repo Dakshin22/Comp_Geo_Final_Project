@@ -14,12 +14,7 @@ public class Main {
         myEdgesList.add(e4);
         myEdgesList.add(e5);
 
-        TreeSetTest test = new TreeSetTest(myEdgesList);
-        test.print();
 
-        OptimizedLineSweep algo2 = new OptimizedLineSweep(myEdgesList);
-        algo2.line_sweep();
-        System.out.println(algo2.intersections);
 
 
 
