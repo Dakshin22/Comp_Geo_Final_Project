@@ -25,24 +25,26 @@ class AVLTree():
     def swapEdges(self, edge1, edge2, currY):
         #print("before", "to delete ", edge1)
         #self.display(currY=currY)
-        self.delete(edge1, currY-0.01)
+        self.delete(edge1, currY)
         #print("after")
         #self.display(currY=currY)
-        self.delete(edge2, currY-0.01)
+        self.delete(edge2, currY)
         #if self.find(edge1, currY):
         #    print("didno't delete")
         #if self.find(edge2, currY):
         #    print("didn't delte 2")
         print("before insertion", self.inorder_traverse())
-        self.insert(edge2, currY + 0.03)
-        self.insert(edge1, currY + 0.03)
-        print("in swap", self.inorder_traverse())
-        A = self.find(edge1, currY+ 0.03)
+        self.insert(edge1, currY + 0.1)
+        self.insert(edge2, currY + 0.1)
 
-        print("didn't insert", A.key)
-        B = self.find(edge2, currY+ 0.03)
+        print("after insertion", self.inorder_traverse())
+        print('edge1 edge2', edge1, edge2)
+        A = self.find(edge1, currY+ 0.05)
 
-        print("didn't insert2", B.key)
+        #print("didn't insert", A.key)
+        B = self.find(edge2, currY+ 0.05)
+
+        #print("didn't insert2", B.key)
 
     def height(self):
         if self.node: 
@@ -55,8 +57,9 @@ class AVLTree():
     
     def find(self, key, currY):
         tree = self.node
-        if tree == None:
+        if tree == None or getXValue(key, currY) == getXValue(tree.key, currY):
             return tree
+        
         elif getXValue(key, currY) < getXValue(tree.key, currY): 
             return tree.left.find(key, currY)
         elif getXValue(key, currY) > getXValue(tree.key, currY): 
@@ -162,7 +165,7 @@ class AVLTree():
             self.balance = 0 
 
     def delete(self, key, currY):
-        debug("Trying to delete at node: " + str(self.node.key))
+        #debug("Trying to delete at node: " + str(self.node.key))
         if self.node != None: 
             if getXValue(self.node.key, currY) == getXValue(key, currY): 
                 debug("Deleting ... " + str(key))  

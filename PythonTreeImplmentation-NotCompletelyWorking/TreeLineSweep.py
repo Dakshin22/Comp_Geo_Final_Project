@@ -5,7 +5,7 @@ from heapq import *
 from SortedListBasic import SortedListBasic
 from AVLTree import Node, AVLTree
 
-class OptimizedLineSweep:
+class TreeLineSweep:
     def __init__(self, edges):
         self.eventQueue = self.getEvents(edges)
         heapify(self.eventQueue)

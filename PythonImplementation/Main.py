@@ -4,10 +4,10 @@ from Point import Point
 import time
 import random
 from LineSweep import LineSweep
-from AVLTree import AVLTree
-from OptimizedLineSweep import OptimizedLineSweep
 
-def generateRandomSegments():
+
+pointsSoFar = set()
+def generateRandomSegments(case, numEdges):
     edges = [
         Edge(Point(2, 1), Point(1, 4)),
         Edge(Point(3, 3), Point(1, 6)),
@@ -23,51 +23,56 @@ def generateRandomSegments():
         Edge(Point(2.203, 0.02), Point(4.132, 0.197)),
         Edge(Point(3.434, 4.911), Point(3.932, 1.038))
     ]
-    randomEdges = []
     min_range = 0
-    max_range = 10
-    while len(randomEdges) < 50:
-        randomEdge = Edge(getRandomPoint(min_range, max_range, min_range,
-                                               max_range), getRandomPoint(min_range, max_range, min_range,  max_range))
-        if abs(randomEdge.p0.y - randomEdge.p1.y) > 5:
-            randomEdges.append(randomEdge)
-    #print(randomEdges)
+    max_range = 1000
+    edges = []
+    if case == 1:
 
-    bestCaseEdges = []
-    increment = 10
-    i = 0
-    while len(bestCaseEdges) < 500000:
-        bestEdge = Edge(getRandomPoint(min_range, max_range, i, i + increment//2), getRandomPoint(
-            min_range, max_range, i + increment//2 + 1, i + increment))
+        while len(edges) < 5000:
+            randomEdge = Edge(getRandomPoint(min_range, max_range, min_range,
+                                                max_range), getRandomPoint(min_range, max_range, min_range,  max_range))
+            if abs(randomEdge.p0.y - randomEdge.p1.y) > 5:
+                edges.append(randomEdge)
+        #print(randomEdges)
 
-        bestCaseEdges.append(bestEdge)
-        i+=increment
-    return randomEdges, bestCaseEdges, edges
+    if case == 2:
+        increment = 10
+        i = 0
+        while len(edges) < 500000:
+            bestEdge = Edge(getRandomPoint(min_range, max_range, i, i + increment//2), getRandomPoint(
+                min_range, max_range, i + increment//2 + 1, i + increment))
+
+            edges.append(bestEdge)
+            i+=increment
+    return edges
 
 
 def getRandomPoint(min_range_x, max_range_x, min_range_y, max_range_y):
     p = Point(random.uniform(min_range_x, max_range_x),
               random.uniform(min_range_y, max_range_y))
-    round(p, 3)
+    while p in pointsSoFar:
+        p = Point(random.uniform(min_range_x, max_range_x),
+              random.uniform(min_range_y, max_range_y))
+    pointsSoFar.add(p)
+    round(p, 2)
     return p
 
-'''
-myEdges, myBestEdges = generateRandomSegments()
+print("What type of line segments would you like to generate?\nEnter '1' - Best Case\nEnter '2' - Worst Case")
+case = input()
+print(case, type(case))
+while case != '1' and case != '2':
+    print("Please select from the following. What type of line segments would you like to generate?\nEnter '1' - Best Case\nEnter '2' - Worst Case: ")
+    case = input()
+numEdges = 0
+while numEdges <= 0:
+    print("How many line segments would you like to generate for this test?\nEnter a positive integer: ")
+    numEdges = int(input())
+print("Generating segments and setting up linesweep...")
+myEdges = generateRandomSegments(int(case), numEdges)
+
 algo = LineSweep(myEdges)
 start = time.time()
+print("running line sweep...")
 algo.lineSweep()
 end = time.time()
-print(f"runtime: {end - start}s")'''
-
-myEdges, myBestEdges, simpleEdges = generateRandomSegments()
-tree = AVLTree()
-currY = 3.7
-for edge in simpleEdges:
-    tree.insert(edge, currY)
-
-
-
-
-algo = OptimizedLineSweep(myEdges)
-algo.lineSweep()
-print(algo.intersections)
+print(f"runtime: {end - start}s")
