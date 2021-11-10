@@ -1,6 +1,6 @@
 #import random, math
 
-outputdebug = False 
+outputdebug = False
 
 def debug(msg):
     if outputdebug:
@@ -23,11 +23,26 @@ class AVLTree():
                 self.insert(i)
 
     def swapEdges(self, edge1, edge2, currY):
-        self.delete(edge1, currY - 0.01)
-        self.delete(edge2, currY - 0.01)
-        self.insert(edge2, currY + 0.01)
-        self.insert(edge1, currY + 0.01)
+        #print("before", "to delete ", edge1)
+        #self.display(currY=currY)
+        self.delete(edge1, currY-0.01)
+        #print("after")
+        #self.display(currY=currY)
+        self.delete(edge2, currY-0.01)
+        #if self.find(edge1, currY):
+        #    print("didno't delete")
+        #if self.find(edge2, currY):
+        #    print("didn't delte 2")
+        print("before insertion", self.inorder_traverse())
+        self.insert(edge2, currY + 0.03)
+        self.insert(edge1, currY + 0.03)
+        print("in swap", self.inorder_traverse())
+        A = self.find(edge1, currY+ 0.03)
 
+        print("didn't insert", A.key)
+        B = self.find(edge2, currY+ 0.03)
+
+        print("didn't insert2", B.key)
 
     def height(self):
         if self.node: 
@@ -147,9 +162,9 @@ class AVLTree():
             self.balance = 0 
 
     def delete(self, key, currY):
-        # debug("Trying to delete at node: " + str(self.node.key))
+        debug("Trying to delete at node: " + str(self.node.key))
         if self.node != None: 
-            if self.node.key == key: 
+            if getXValue(self.node.key, currY) == getXValue(key, currY): 
                 debug("Deleting ... " + str(key))  
                 if self.node.left.node == None and self.node.right.node == None:
                     self.node = None # leaves can be killed at will 
@@ -228,6 +243,7 @@ class AVLTree():
 
     def successor(self, edge):
         inOrder = self.inorder_traverse()
+        print(edge, inOrder)
         idx = inOrder.index(edge)
         if idx < len(inOrder) - 1:
             sucIdx = idx + 1
@@ -253,7 +269,7 @@ class AVLTree():
     
         return inlist 
 
-    def display(self, level=0, pref=''):
+    def display(self, currY, level=0, pref=''):
         '''
         Display the whole tree. Uses recursive def.
         TODO: create a better display using breadth-first search
@@ -261,15 +277,15 @@ class AVLTree():
         self.update_heights()  # Must update heights before balances 
         self.update_balances()
         if(self.node != None): 
-            print ('-' * level * 2, pref, self.node.key, "[" + str(self.height) + ":" + str(self.balance) + "]", 'L' if self.is_leaf() else ' '    )
+            print ('-' * level * 2, pref, self.node.key, getXValue(self.node.key, currY),"[" + str(self.height) + ":" + str(self.balance) + "]", 'L' if self.is_leaf() else ' '    )
             if self.node.left != None: 
-                self.node.left.display(level + 1, '<')
+                self.node.left.display(currY=currY, level=level + 1, pref='<')
             if self.node.left != None:
-                self.node.right.display(level + 1, '>')
+                self.node.right.display(currY = currY, level=level + 1, pref='>')
 
 def getXValue(segment, yVal):
     slope = (segment.p1.y - segment.p0.y) / (segment.p1.x - segment.p0.x)
-    return ((yVal - segment.p1.y) / slope) + segment.p1.x
+    return round(((yVal - segment.p1.y) / slope) + segment.p1.x, 2)
 # Usage example
 if __name__ == "__main__": 
     a = AVLTree()

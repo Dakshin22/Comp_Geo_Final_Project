@@ -25,8 +25,8 @@ def generateRandomSegments():
     ]
     randomEdges = []
     min_range = 0
-    max_range = 1000
-    while len(randomEdges) < 300:
+    max_range = 10
+    while len(randomEdges) < 50:
         randomEdge = Edge(getRandomPoint(min_range, max_range, min_range,
                                                max_range), getRandomPoint(min_range, max_range, min_range,  max_range))
         if abs(randomEdge.p0.y - randomEdge.p1.y) > 5:

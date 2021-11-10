@@ -21,7 +21,10 @@ class OptimizedLineSweep:
             currY = currEvent.point.y
             #print(currEvent.category)
             if currEvent.category == 0:
+                print("cat 0")
+                print(self.lineSweepStatus.inorder_traverse())
                 self.lineSweepStatus.insert(currEvent.edge1, currY)
+                print(self.lineSweepStatus.inorder_traverse())
                 predEdge = self.lineSweepStatus.predecessor(currEvent.edge1)
                 sucEdge = self.lineSweepStatus.successor(currEvent.edge1)
                 if predEdge:
@@ -36,6 +39,7 @@ class OptimizedLineSweep:
                                     self.intersections, currEvent.edge1, sucEdge)
 
             elif currEvent.category == 1:
+                print("cat 1")
                 predEdge = self.lineSweepStatus.predecessor(currEvent.edge1)
                 sucEdge = self.lineSweepStatus.successor(currEvent.edge1)
                 if predEdge and sucEdge:
@@ -45,6 +49,7 @@ class OptimizedLineSweep:
                 self.lineSweepStatus.delete(currEvent.edge1, currY)
 
             else:
+                print("cat 2", currEvent.edge1, currEvent.edge2)
                 #print("intersection event")
                 self.lineSweepStatus.swapEdges(currEvent.edge1, currEvent.edge2, currY)
                 predEdge = self.lineSweepStatus.predecessor(currEvent.edge2)
