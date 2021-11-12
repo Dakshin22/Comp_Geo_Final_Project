@@ -8,6 +8,7 @@ from LineSweep import LineSweep
 
 pointsSoFar = set()
 def generateRandomSegments(case, numEdges):
+    '''
     edges = [
         Edge(Point(2, 1), Point(1, 4)),
         Edge(Point(3, 3), Point(1, 6)),
@@ -23,22 +24,23 @@ def generateRandomSegments(case, numEdges):
         Edge(Point(2.203, 0.02), Point(4.132, 0.197)),
         Edge(Point(3.434, 4.911), Point(3.932, 1.038))
     ]
+    '''
     min_range = 0
     max_range = 1000
     edges = []
-    if case == 1:
+    if case == 2:
 
-        while len(edges) < 5000:
+        while len(edges) < numEdges:
             randomEdge = Edge(getRandomPoint(min_range, max_range, min_range,
                                                 max_range), getRandomPoint(min_range, max_range, min_range,  max_range))
             if abs(randomEdge.p0.y - randomEdge.p1.y) > 5:
                 edges.append(randomEdge)
         #print(randomEdges)
 
-    if case == 2:
-        increment = 10
+    if case == 1:
+        increment = 5
         i = 0
-        while len(edges) < 500000:
+        while len(edges) < numEdges:
             bestEdge = Edge(getRandomPoint(min_range, max_range, i, i + increment//2), getRandomPoint(
                 min_range, max_range, i + increment//2 + 1, i + increment))
 
@@ -57,9 +59,8 @@ def getRandomPoint(min_range_x, max_range_x, min_range_y, max_range_y):
     round(p, 2)
     return p
 
-print("What type of line segments would you like to generate?\nEnter '1' - Best Case\nEnter '2' - Worst Case")
+print("What type of line segments would you like to generate?\nEnter '1' - Best Case: Line Segments not intersecting, stacked on top of one another.\nEnter '2' - Average Case: Random segments with coordinates in the range (0, 0) to (1000, 1000)")
 case = input()
-print(case, type(case))
 while case != '1' and case != '2':
     print("Please select from the following. What type of line segments would you like to generate?\nEnter '1' - Best Case\nEnter '2' - Worst Case: ")
     case = input()
@@ -71,8 +72,8 @@ print("Generating segments and setting up linesweep...")
 myEdges = generateRandomSegments(int(case), numEdges)
 
 algo = LineSweep(myEdges)
-start = time.time()
 print("running line sweep...")
+start = time.time()
 algo.lineSweep()
 end = time.time()
-print(f"runtime: {end - start}s")
+print(f"runtime: {(end - start)*1000} ms")
