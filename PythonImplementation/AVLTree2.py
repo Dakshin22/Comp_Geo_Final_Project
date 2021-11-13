@@ -197,9 +197,9 @@ class AVLTree():
             changed = node.height != old_height
             node = node.parent
        
-    def add_as_child (self, parent_node, child_node):
+    def add_as_child (self, parent_node, child_node, currY):
         node_to_rebalance = None
-        if child_node.key < parent_node.key:
+        if getXValue(child_node.key, currY) <  getXValue(parent_node.key, currY):
             if not parent_node.leftChild:
                 parent_node.leftChild = child_node
                 child_node.parent = parent_node
@@ -212,7 +212,7 @@ class AVLTree():
                             break #we need the one that is furthest from the root
                         node = node.parent     
             else:
-                self.add_as_child(parent_node.leftChild, child_node)
+                self.add_as_child(parent_node.leftChild, child_node, currY)
         else:
             if not parent_node.rightChild:
                 parent_node.rightChild = child_node
@@ -226,19 +226,19 @@ class AVLTree():
                             break #we need the one that is furthest from the root
                         node = node.parent       
             else:
-                self.add_as_child(parent_node.rightChild, child_node)
+                self.add_as_child(parent_node.rightChild, child_node, currY)
         
         if node_to_rebalance:
             self.rebalance (node_to_rebalance)
     
-    def insert (self, key):
+    def insert (self, key, currY):
         new_node = Node (key)
         if not self.rootNode:
             self.rootNode = new_node
         else:
-            if not self.find(key):
+            if not self.find(key, currY):
                 self.elements_count += 1
-                self.add_as_child (self.rootNode, new_node)
+                self.add_as_child (self.rootNode, new_node, currY)
       
     def find_biggest(self, start_node):
         node = start_node
@@ -311,22 +311,22 @@ class AVLTree():
         elif pre_in_post == 3:
             return self.inorder_non_recursive()      
           
-    def find(self, key):
-        return self.find_in_subtree (self.rootNode, key )
+    def find(self, key, currY):
+        return self.find_in_subtree (self.rootNode, key, currY )
     
-    def find_in_subtree (self,  node, key):
+    def find_in_subtree (self,  node, key, currY):
         if node is None:
             return None  # key not found
-        if key < node.key:
-            return self.find_in_subtree(node.leftChild, key)
-        elif key > node.key:
-            return self.find_in_subtree(node.rightChild, key)
+        if getXValue(key, currY) < getXValue(node.key, currY):
+            return self.find_in_subtree(node.leftChild, key, currY)
+        elif getXValue(key, currY) > getXValue(node.key, currY):
+            return self.find_in_subtree(node.rightChild, key, currY)
         else:  # key is equal to node key
             return node
     
-    def remove (self, key):
+    def remove (self, key, currY):
         # first find
-        node = self.find(key)
+        node = self.find(key, currY)
         
         if not node is None:
             self.elements_count -= 1
@@ -498,3 +498,7 @@ if __name__ == "__main__":
     """check that an AVL tree's height is strictly less than 
     1.44*log2(N+2)-1 (there N is number of elements)"""
     assert (c.height() < 1.44 * math.log(after_deletion+2, 2) - 1)
+
+def getXValue(segment, yVal):
+    slope = (segment.p1.y - segment.p0.y) / (segment.p1.x - segment.p0.x)
+    return round(((yVal - segment.p1.y) / slope) + segment.p1.x, 2)
