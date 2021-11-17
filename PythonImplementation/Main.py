@@ -38,7 +38,7 @@ def generateRandomSegments(case, numEdges):
         #print(randomEdges)
 
     if case == 1:
-        increment = 5
+        increment = 2
         i = 0
         while len(edges) < numEdges:
             bestEdge = Edge(getRandomPoint(min_range, max_range, i, i + increment//2), getRandomPoint(
@@ -56,7 +56,6 @@ def getRandomPoint(min_range_x, max_range_x, min_range_y, max_range_y):
         p = Point(random.uniform(min_range_x, max_range_x),
               random.uniform(min_range_y, max_range_y))
     pointsSoFar.add(p)
-    round(p, 2)
     return p
 
 print("What type of line segments would you like to generate?\nEnter '1' - Best Case: Line Segments not intersecting, stacked on top of one another.\nEnter '2' - Average Case: Random segments with coordinates in the range (0, 0) to (1000, 1000)")

@@ -44,7 +44,7 @@ class LineSweep:
 
             else:
                 #print("intersection event")
-                self.lineSweepStatus.swapEdges(currEvent.edge1, currEvent.edge2)
+                self.lineSweepStatus.swapEdges(currEvent.edge1, currEvent.edge2, currY)
                 predEdge = self.lineSweepStatus.predecessor(currEvent.edge2)
                 if predEdge:
                     intersection = predEdge.intersectionPoint(currEvent.edge2)

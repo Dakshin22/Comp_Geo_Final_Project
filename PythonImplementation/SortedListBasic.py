@@ -44,10 +44,15 @@ class SortedListBasic:
     def swap(self, idx1, idx2):
         self.sortedList[idx2], self.sortedList[idx1] = self.sortedList[idx1], self.sortedList[idx2]
 
-    def swapEdges(self, edge1, edge2):
-        edge1Idx = self.sortedList.index(edge1)
-        edge2Idx = self.sortedList.index(edge2)
-        self.swap(edge1Idx, edge2Idx)       
+    def swapEdges(self, edge1, edge2, currY):
+        if edge1 in self.sortedList:
+            self.remove(edge1)
+        if edge2 in self.sortedList:
+            self.remove(edge2)
+        if edge2 not in self.sortedList:
+            self.add(edge2, currY + 0.01)
+        if edge1 not in self.sortedList:
+            self.add(edge1, currY + 0.01)
 
     def get(self, idx):
         return self.sortedList[idx]

@@ -16,6 +16,7 @@ public class LineSweep {
     }
 
     public void line_sweep() {
+
         while (!eventQueue.isEmpty()) {
             Event currEvent = eventQueue.poll();
             double currY = currEvent.point.y;
@@ -58,7 +59,10 @@ public class LineSweep {
                     }
 
             }
+
         }
+        
+
     }
 
     public void addIntersection(Point intersection, Edge edge1, Edge edge2) {
