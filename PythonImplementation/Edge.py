@@ -5,11 +5,12 @@ class Edge:
         self.p0 = p0
         self.p1 = p1
     
-    def __str__(self):
+    def __repr__(self):
         return f'<{self.p0}, {self.p1}>'
 
     def __eq__(self, other):
-        return self.p0 == other.p0 and self.p1 == other.p1
+        #print("here", self, other)
+        return self.p0.x == other.p0.x and self.p0.y == other.p0.y and self.p1.x == other.p1.x and self.p1.y == other.p1.y
 
     # Should return the intersection point or null, if no intersection exists.
     def intersectionPoint(self, other):
@@ -40,3 +41,6 @@ class Edge:
         intersection = Point(intersectionX, intersectionY)
         return intersection
 
+    def getXValue(self, yVal):
+        slope = (self.p1.y - self.p0.y) / (self.p1.x - self.p0.x)
+        return ((yVal - self.p1.y )/ slope) + self.p1.x
