@@ -1,7 +1,12 @@
 #import random, math
-
+# starter code:
+# avl tree: https://github.com/Bibeknam/algorithmtutorprograms/blob/master/data-structures/avl-trees/avl_tree.py
 outputdebug = False
 
+'''
+Attempt at using AVL tree for line sweep status to improve time complexity
+Due to floating point error and rotation issues with insertion and deletion, this code does not work on most inputs.
+'''
 def debug(msg):
     if outputdebug:
         print (msg)
@@ -289,25 +294,3 @@ class AVLTree():
 def getXValue(segment, yVal):
     slope = (segment.p1.y - segment.p0.y) / (segment.p1.x - segment.p0.x)
     return round(((yVal - segment.p1.y) / slope) + segment.p1.x, 2)
-# Usage example
-if __name__ == "__main__": 
-    a = AVLTree()
-    print ("----- Inserting -------")
-    #inlist = [5, 2, 12, -4, 3, 21, 19, 25]
-    inlist = [7, 5, 2, 6, 3, 4, 1, 8, 9, 0]
-    for i in inlist: 
-        a.insert(i)
-         
-    a.display()
-    
-    print ("----- Deleting -------")
-    a.delete(3)
-    a.delete(4)
-    # a.delete(5) 
-    a.display()
-    
-    print ()
-    print ("Input            :", inlist )
-    print ("deleting ...       ", 3)
-    print ("deleting ...       ", 4)
-    print ("Inorder traversal:", a.inorder_traverse())

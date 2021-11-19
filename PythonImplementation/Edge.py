@@ -1,5 +1,9 @@
 from Point import Point
 
+'''
+Edge class representing a line segments
+Data members p0 and p1 -> points representing edge.
+'''
 class Edge:
     def __init__(self, p0: Point, p1: Point):
         self.p0 = p0
@@ -9,12 +13,10 @@ class Edge:
         return f'<{self.p0}, {self.p1}>'
 
     def __eq__(self, other):
-        #print("here", self, other)
         return self.p0.x == other.p0.x and self.p0.y == other.p0.y and self.p1.x == other.p1.x and self.p1.y == other.p1.y
 
-    # Should return the intersection point or null, if no intersection exists.
+    # Should return the intersection point or null, if no intersection exists for two edges.
     def intersectionPoint(self, other):
-        # Should return the intersection point or null, if no intersection exists.
         Dx = self.p1.x - self.p0.x
         Dy = self.p1.y - self.p0.y
         Rx = other.p1.x - other.p0.x
@@ -40,6 +42,7 @@ class Edge:
 
         intersection = Point(intersectionX, intersectionY)
         return intersection
+
 
     def getXValue(self, yVal):
         slope = (self.p1.y - self.p0.y) / (self.p1.x - self.p0.x)

@@ -1,5 +1,12 @@
 import java.util.*;
 
+/**
+ * class for tree based linesweep algorithm Uses balanced BST (Red black tree)
+ * for linesweep 
+ * n = # segments, k = # intersections 
+ * Worst Case: O((n + k) * log(n)) 
+ * Best Case: O(n)
+ */
 public class OptimizedLineSweep {
 
     private TreeSet<Edge> lineSweepStatus;
@@ -61,6 +68,14 @@ public class OptimizedLineSweep {
         }
     }
 
+    /**
+     * Swaps to edges in line sweep status by deleting both, then inserting them at
+     * a slightly higher y value
+     * O(log(n)) total
+     * @param edge1
+     * @param edge2
+     * @param currY
+     */
     public void swapEdges(Edge edge1, Edge edge2, double currY) {
 
         lineSweepStatus.remove(edge1);
@@ -68,7 +83,7 @@ public class OptimizedLineSweep {
         cmp.currY = currY + 0.1;
         lineSweepStatus.add(edge2);
         lineSweepStatus.add(edge1);
-        
+
     }
 
     public void addIntersection(Point intersection, Edge edge1, Edge edge2) {

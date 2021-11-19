@@ -1,6 +1,10 @@
 
 import java.util.*;
 
+/**
+ * edge comparator for edges used in BST implementation
+ * Has data member to change the current Y value.
+ */
 public class edge_comparator implements Comparator<Edge> {
 
     public double currY;

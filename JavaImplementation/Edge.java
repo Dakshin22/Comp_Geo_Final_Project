@@ -1,3 +1,7 @@
+/**
+ * Edge class representing a line segments
+ * Data members p0 and p1 -> points representing edge.
+ */
 public class Edge {
     public Point p0;
     public Point p1;
@@ -34,6 +38,11 @@ public class Edge {
 
     }
 
+    /**
+     * Should return the intersection point or null, if no intersection exists for two edges.
+     * @param other
+     * @return intersection point
+     */
     public Point intersectionPoint(Edge other) {
         double Dx = p1.x - p0.x;
         double Dy = p1.y - p0.y;

@@ -1,6 +1,11 @@
 from Point import Point
 from Edge import Edge
-
+'''
+Event class
+* Keeps track of event values, point represents the point that event represents.
+* Event category 0 is bottom, 1 is top, 2 is intersection
+* edge2 is only non-null for intersection
+'''
 class Event:
     def __init__(self, category, point: Point, edge1: Edge, edge2=None):
         self.category = category

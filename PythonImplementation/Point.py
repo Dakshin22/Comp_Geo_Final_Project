@@ -1,3 +1,8 @@
+'''
+Point class
+* x and y track point coordinate values
+* values are rounded to 2
+'''
 class Point:
     def __init__(self, x, y):
         self.x = x

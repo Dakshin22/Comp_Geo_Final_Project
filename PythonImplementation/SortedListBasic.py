@@ -1,4 +1,11 @@
 from Edge import Edge
+
+'''
+Main data structure for line sweep status
+Supports inserting, removing, finding successor and predecessor, and swapping two segments at a particular Y value
+Maintains sorted data to store segments/edges
+Linear time for most operations
+'''
 class SortedListBasic:
     def __init__(self):
         self.sortedList = []

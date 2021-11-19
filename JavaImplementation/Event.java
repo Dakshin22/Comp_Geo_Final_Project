@@ -1,3 +1,9 @@
+/**
+ * Event class
+* Keeps track of event values, point represents the point that event represents.
+* Event category 0 is bottom, 1 is top, 2 is intersection
+* edge2 is only non-null for intersection events
+ */
 public class Event {
     int category;
     Point point;

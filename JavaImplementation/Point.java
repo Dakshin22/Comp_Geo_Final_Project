@@ -2,6 +2,11 @@
 import java.util.*;
 import java.math.*;
 
+/**
+ * Point class 
+ * x and y track point coordinate values 
+ * values are rounded to 2
+ */
 public class Point {
     public double x;
     public double y;
@@ -25,11 +30,9 @@ public class Point {
         if (other == null) {
             return false;
         }
-        if (other instanceof Point)
-        {
+        if (other instanceof Point) {
             Point test = (Point) other;
-            if(this.x == test.x && this.y == test.y)
-            {
+            if (this.x == test.x && this.y == test.y) {
                 return true;
             }
         }
@@ -45,7 +48,7 @@ public class Point {
         if (places < 0)
             throw new IllegalArgumentException();
 
-        int next = (int)value;
+        int next = (int) value;
         BigDecimal bd = new BigDecimal(next);
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();

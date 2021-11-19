@@ -1,6 +1,13 @@
 
 import java.util.*;
 
+
+/**
+ * Main data structure for line sweep status
+ * Supports inserting, removing, finding successor and predecessor, and swapping two segments at a particular Y value
+ * Maintains sorted data to store segments/edges
+ * Linear time for most operations
+ */
 public class SortedList {
     public ArrayList<Edge> sortedList;
 
@@ -55,16 +62,6 @@ public class SortedList {
         int edge2Idx = this.index(edge2);
         if(edge1Idx == -1 || edge2Idx == -1)
         {
-            // System.out.println(edge1);
-            // System.out.println(edge2);
-            // if(edge1Idx == -1)
-            // {
-            //     System.out.println(edge1 + "is the problem");
-            // }
-            // else if(edge2Idx == -1)
-            // {
-            //     System.out.println(edge1 + "is the problem");
-            // }
             return -1;
         }
         this.swap(edge1Idx, edge2Idx);

@@ -7,24 +7,12 @@ from LineSweep import LineSweep
 
 
 pointsSoFar = set()
-def generateRandomSegments(case, numEdges):
-    '''
-    edges = [
-        Edge(Point(2, 1), Point(1, 4)),
-        Edge(Point(3, 3), Point(1, 6)),
-        Edge(Point(8, 2), Point(4, 6)),
-        Edge(Point(5, 3), Point(8, 7)),
-        Edge(Point(6, 3), Point(9, 6))
-    ]
 
-    edges2 = [
-        Edge(Point(1.672, 0.141), Point(2.547, 3.187)),
-        Edge(Point(4.499, 2.111), Point(2.082, 3.715)),
-        Edge(Point(2.75, 3.94), Point(1.424, 2.449)),
-        Edge(Point(2.203, 0.02), Point(4.132, 0.197)),
-        Edge(Point(3.434, 4.911), Point(3.932, 1.038))
-    ]
-    '''
+'''
+Generates random segments for best case and average case segments
+'''
+def generateRandomSegments(case, numEdges):
+
     min_range = 0
     max_range = 1000
     edges = []
@@ -58,10 +46,14 @@ def getRandomPoint(min_range_x, max_range_x, min_range_y, max_range_y):
     pointsSoFar.add(p)
     return p
 
-print("What type of line segments would you like to generate?\nEnter '1' - Best Case: Line Segments not intersecting, stacked on top of one another.\nEnter '2' - Average Case: Random segments with coordinates in the range (0, 0) to (1000, 1000)")
+
+'''
+Main runner code to run linesweep algorithm according to user choices
+'''
+print("What type of line segments would you like to generate?\nEnter '1' - Best Case: Line Segments not intersecting, stacked on top of one another.\nEnter '2' - Average Case: Random segments")
 case = input()
 while case != '1' and case != '2':
-    print("Please select from the following. What type of line segments would you like to generate?\nEnter '1' - Best Case\nEnter '2' - Worst Case: ")
+    print("Please select from the following. What type of line segments would you like to generate?\nEnter 1 - Best Case\nEnter 2 - Worst Case: ")
     case = input()
 numEdges = 0
 while numEdges <= 0:

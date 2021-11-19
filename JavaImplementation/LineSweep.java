@@ -1,5 +1,12 @@
 import java.util.*;
 
+/**
+* class for array based linesweep algorithm
+* Uses Sorted List for line sweep status
+* n = # segments, k = # intersections
+* Average/Worst Case: O((n + k) * n)
+* Best Case: O(n)
+ */
 public class LineSweep {
     private SortedList lineSweepStatus;
     private Queue<Event> eventQueue;

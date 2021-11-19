@@ -1,4 +1,4 @@
-from AVLTree2 import Node, AVLTree
+from AVLTree import AVLTree
 from Edge import Edge
 from Point import Point
 
